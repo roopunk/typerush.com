@@ -1,0 +1,18 @@
+root { 
+    display: block;
+}
+
+#para span {
+    padding:5px;
+}
+
+.green {
+    background-color: green;
+    color:white;
+    border-radius:7px;
+}
+
+.red {
+    background-color: #f00 !important;
+    border:2px solid #000;
+}
