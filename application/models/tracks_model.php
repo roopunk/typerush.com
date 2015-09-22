@@ -14,7 +14,7 @@ class Tracks_model extends CI_model {
     }
 	
 	public function getTopTracks(){
-		$result = $this->db->query("SELECT track FROM `score` group by track order by count(*) desc limit 10");
+		$result = $this->db->query("SELECT track FROM `score` group by track order by count(*) desc limit 20");
 		if($result) {
 			$tracks = array();
 			$temp = $result->result_array();
@@ -29,7 +29,7 @@ class Tracks_model extends CI_model {
 	}
 	
 	public function getRecentTracks(){
-		$result = $this->db->query("SELECT `id`, `words`, substr(`content`,1,".$this->config->item('preview_limit').") as content, char_length(`content`) as length FROM `tracks` order by UNIX_TIMESTAMP(timestamp) desc limit 10");
+		$result = $this->db->query("SELECT `id`, `words`, substr(`content`,1,".$this->config->item('preview_limit').") as content, char_length(`content`) as length FROM `tracks` order by UNIX_TIMESTAMP(timestamp) desc limit 20");
 		if($result) {
 			$tracks = $result->result_array();
 			return array('s'=>true, 'd'=>$tracks);

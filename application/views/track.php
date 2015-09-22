@@ -8,12 +8,18 @@
                 <div id="parabs" class="bottomshadow"></div>
                 <div id="parats" class="topshadow"></div>
             </div><br>
-                <form onsubmit="return false" style="width:400px;display:inline-block">
-                    <input type="text" style="font-size: 150%;width:350px" autocomplete="off" value="" disabled="disabled" id="typeValue"/>
-                </form>
-                <?php if(empty($room)): ?>
-                <button id="gameHandle" class="large-button">Start!</button> 
-                <?php endif; ?>
+                <div class="row">
+                    <div class="col-md-9">
+                        <form onsubmit="return false" class="wp100 frm">
+                            <input type="text" class="wp100" style="font-size: 150%;" autocomplete="off" value="" disabled="disabled" id="typeValue"/>
+                        </form>
+                    </div>
+                    <?php if(empty($room)): ?>
+                    <div class="col-md-3">
+                        <button id="gameHandle" class="btn btn-primary wp100" >Start!</button> 
+                    </div>
+                    <?php endif; ?>
+                </div>
             <div id="countdownlayer" class="hid box-shadow"></div>
             <div id="countdownlayerbg" class="hid"></div>
         </div>
@@ -46,14 +52,6 @@ $(function() {
         // event handlers
         $('.trackDiv').bind("click", function() {
             window.location = configObj.baseUrl + "?trackid=" + $(this).attr('trackid');
-        });
-        $('#username').bind("click", function() {
-            var username;
-            if (username = prompt("Want to choose a username?", $('#username').text())) {
-                $(this).html(username);
-            } else {
-                setCookie('tr_username', $('#username').text());
-            }
         });
     <?php endif; ?>
 });

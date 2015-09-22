@@ -20,10 +20,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Type Rush</title>
         <link rel="stylesheet" href="<?php echo base_url(); ?>css/<?php echo getCSSJSVer('base', 'css'); ?>.css" />
-        <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>css/bootstrap.min.css" />
+        <!-- <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'> -->
         <link rel="icon" type="image/png" href="<?php echo base_url(); ?>favicon.ico">
         <script type="text/javascript" src="<?php echo base_url(); ?>js/<?php echo getCSSJSVer('jquery', 'js'); ?>.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>js/<?php echo getCSSJSVer('base', 'js'); ?>.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
         <?php
             if(!empty($js)) {
                 foreach($js as $j) {
@@ -38,7 +40,7 @@
                 this.countdown_limit = "<?php echo $this->config->item('countdown_time'); ?>";
             };
         </script>
-        <?php if($this->config->item('track_on')): ?>
+        <?php if($this->config->item('track_on') && $this->config->item('is_live')): ?>
         <script type="text/javascript">
 
           var _gaq = _gaq || [];
@@ -55,25 +57,22 @@
         <?php endif; ?>
     </head>
     <body>
-        <div id="header" class="p20">
-            <div id="witText">
-                <div id="headerLogo">
-                    <h1>
-                        <a href="<?php echo base_url(); ?>" class="no-underline">
-                            <span class="lightGrey">TypeRush</span>
-                        </a>
-                    </h1>
-                </div>
-                <span class="largeText">Typing practice, gamified!</span>
-            </div>
-            <br> 
-            <?php if (!empty($username)) : ?>
+        <div class="container">
+            <div class="p10">
+                <h1>
+                    <a href="<?php echo base_url(); ?>" class="no-underline">
+                        <span class="lightGrey">TypeRush</span>
+                    </a>
+                </h1>
+                <!-- <h4 >Typing practice, gamified!</h4> -->
+                <hr> 
+                <?php if (!empty($username)) : ?>
                 <div>
-                    playing as <span id="username" class="grey"><?php echo ((isset($username) ? $username : 'anonymous')); ?></span>
-                    <a href="<?php echo site_url('track/add')?>" class="large-blue-button" style="float:right;margin-right:20px;">Add a track</a>
-                    <a href="<?php echo site_url('room/start')?>" class="large-blue-button" style="float:right;margin-right:20px;">Start a room</a>
+                    Playing as <span id="username" class="grey"><?php echo ((isset($username) ? $username : 'anonymous')); ?></span>
+                    <a href="<?php echo site_url('track/add')?>" class="btn btn-primary" style="float:right;margin-right:10px;">Add a track</a>
+                    <a href="<?php echo site_url('room/start')?>" class="btn btn-primary" style="float:right;margin-right:20px;">Start a room</a>
                     <div class="clr"></div>
                 </div>
-            <?php endif; ?>
-        </div>
-        <div id="wrapper">
+                <?php endif; ?>
+            </div>
+            <div>
