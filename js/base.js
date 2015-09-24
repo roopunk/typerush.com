@@ -164,7 +164,7 @@ function gameClass(b, d, c, f, h, g) {
             k = $("#" + this.trackid).find("span.green").position().top;
             i = $("#" + this.trackid).height() - k
         }
-        if (typeof k != "undefined" && k > 100 && i > 80) {
+        if (k && k > 100 && i > 50) {
             j = parseInt(k - 100);
             if (j != this.top_margin) {
                 $("#" + this.trackid).animate({

@@ -366,7 +366,7 @@ $config['check_online_limit'] = 20;
 /* custom configs */
 $config['preview_limit'] = 50;
 $config['track_on'] = true;
-$config['is_live'] = true;
+$config['is_live'] = false;
 $config['css_ver'] = array(
 		'base' => 'base-v2-1'
 	);

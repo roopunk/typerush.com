@@ -25,7 +25,7 @@
         <link rel="icon" type="image/png" href="<?php echo base_url(); ?>favicon.ico">
         <script type="text/javascript" src="<?php echo base_url(); ?>js/<?php echo getCSSJSVer('jquery', 'js'); ?>.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>js/<?php echo getCSSJSVer('base', 'js'); ?>.js"></script>
-        <script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
+        <!--<script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>-->
         <?php
             if(!empty($js)) {
                 foreach($js as $j) {
@@ -59,19 +59,24 @@
     <body>
         <div class="container">
             <div class="p10">
-                <h1>
-                    <a href="<?php echo base_url(); ?>" class="no-underline">
-                        <span class="lightGrey">TypeRush</span>
-                    </a>
-                </h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1>
+                            <a href="<?php echo base_url(); ?>" class="no-underline">
+                                <span class="lightGrey">TypeRush</span>
+                            </a>
+                        </h1>
+                    </div>
+                    <div class="col-md-6 text-right" style="padding-top:20px;">
+                        <a href="<?php echo site_url('track/add')?>" class="btn btn-primary m10" >Add a track</a>
+                        <!--<a href="<?php echo site_url('room/start')?>" class="btn btn-primary m10">Start a room</a>-->
+                    </div>
+                </div>
                 <!-- <h4 >Typing practice, gamified!</h4> -->
                 <hr> 
                 <?php if (!empty($username)) : ?>
                 <div>
                     Playing as <span id="username" class="grey"><?php echo ((isset($username) ? $username : 'anonymous')); ?></span>
-                    <a href="<?php echo site_url('track/add')?>" class="btn btn-primary" style="float:right;margin-right:10px;">Add a track</a>
-                    <a href="<?php echo site_url('room/start')?>" class="btn btn-primary" style="float:right;margin-right:20px;">Start a room</a>
-                    <div class="clr"></div>
                 </div>
                 <?php endif; ?>
             </div>
