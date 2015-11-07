@@ -368,10 +368,10 @@ $config['preview_limit'] = 50;
 $config['track_on'] = true;
 $config['is_live'] = false;
 $config['css_ver'] = array(
-		'base' => 'base-v2-1'
+		'base' => 'base-v2-3'
 	);
 $config['js_ver'] = array(
-		'base' => 'base-v2-2',
+		'base' => 'base-v2-3',
 		'room' => 'room-v1',
 		'jquery' => 'jquery',
 		'track_add' => 'track_add-v1'

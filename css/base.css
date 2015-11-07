@@ -1,10 +1,9 @@
 * {padding:0px; margin:0px; box-sizing: border-box;}
 body { background-color: #fff;font-family: 'Ubuntu Mono', sans-serif;}
-#l1, #l2 { padding:10px;}
 #l3 {width:440px;padding:10px;}
 #username {font-size:150%; font-weight:bold; padding: 5px; }
 #username:hover {cursor: pointer; background-color: #efefef;}
-.pagecolumn { display:inline-block;vertical-align:top; margin: 10px;}
+.pagecolumn { display:inline-block;vertical-align:top; margin: 10px; width:100%;}
 
 .p20 { padding:20px; }
 .p10 { padding:10px; }
@@ -168,7 +167,11 @@ border:1px solid #908c68; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
 #track{ display: inline-block; vertical-align: top; position:relative;}
 .hid {display:none !important;}
 .clr {clear:both;}
-.parawrapper { overflow: hidden; max-height: 200px; position:relative;padding:10px 0px;}
+.parawrapper { 
+	overflow: hidden; 
+	max-height: 200px; 
+	position:relative; 
+}
 .para {position:relative;}
 
 .bottomshadow, .topshadow { display:none; width:100%; height:5px;box-shadow:inset 0 -7px 7px -7px #aaa;-webkit-box-shadow:inset 0 -7px 7px -7px #aaa;position:absolute;bottom:0px;}

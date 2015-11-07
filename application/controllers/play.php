@@ -5,6 +5,8 @@ class Play extends CI_Controller {
 	public function index()
 	{
         $this->load->model('tracks_model');
+        $this->load->model('score_model');
+
 		$topTracks = $this->tracks_model->getTopTracks()['d'];
 		$recentTracks = $this->tracks_model->getRecentTracks()['d'];
   
@@ -13,6 +15,9 @@ class Play extends CI_Controller {
         $trackid = $track['trackid'];
         $this->session->set_userdata(array('trackid'=>$trackid));
 
+        // fetch the recetly played tracks
+        $recentScores = $this->score_model->fetchRecentScores();
+
         // about the user
         // read the cookie
         $username = "anon";
@@ -20,7 +25,13 @@ class Play extends CI_Controller {
             $username = $_COOKIE['tr_username'];
 
         $this->load->view('page_start', array('username'=>$username));
-        $this->load->view('play', array('username'=>$username, 'track' => $track, 'topTracks'=>$topTracks, 'recentTracks'=>$recentTracks));
+        $this->load->view('play', array(
+            'username'=>$username, 
+            'track' => $track, 
+            'topTracks'=>$topTracks, 
+            'recentTracks'=>$recentTracks,
+            'recentScores' => $recentScores
+        ));
         $this->load->view('page_end');
 	}
 }

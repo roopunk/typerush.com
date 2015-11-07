@@ -5,31 +5,49 @@
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">
-				<div id="l1" class="box-shadow pagecolumn">
+				<div class="box-shadow pagecolumn">
+					<?php if (!empty($recentScores)): ?>
+			        <div >
+			            <div class="bg-success p10">Recent Scores</div>
+			            <table class="table">
+    					<tr><th>user</th><th>wpm</th><th>time</th></tr>
+			            <?php
+			            foreach ((array) $recentScores as $score) {
+			                echo '<tr><td>'.$score['name'].'</td><td>'.$score['wpm'].'</td><td>'.date('d-m-Y', $score['timestamp']).'</td></tr>';
+			            }
+			            ?>
+			            </table>
+			        </div><br>
+					<?php endif; ?>
+				</div>
+				<div class="box-shadow pagecolumn">
+			        <?php if (!empty($topTracks)): ?>
+			        <div >
+			            <div class="bg-success p10">Top Tracks</div>
+			            <?php
+			            foreach ((array) $topTracks as $trackInfo) {
+			                echo '<div class="p10 dash-bottom trackDiv" trackid="' . $trackInfo['id'] . '">' . $trackInfo['content'] . (($trackInfo['length'] > $this->config->item('preview_limit'))?"...":"") .'</div>';
+			            }
+			            ?>
+			        </div><br>
+					<?php endif; ?>
+
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="box-shadow pagecolumn">
 			    <?php if (!empty($recentTracks)): ?>
 			        <div >
-			            <strong>Recent Tracks</strong>
+			            <div class="bg-success p10">Recent Tracks</div>
 			            <?php
 			            foreach ((array) $recentTracks as $trackInfo) {
-			                echo '<div class="p5 dash-bottom trackDiv" trackid="' . $trackInfo['id'] . '">' . $trackInfo['content'] . (($trackInfo['length'] > $this->config->item('preview_limit'))?"...":"").'</div>';
+			                echo '<div class="p10 dash-bottom trackDiv" trackid="' . $trackInfo['id'] . '">' . $trackInfo['content'] . (($trackInfo['length'] > $this->config->item('preview_limit'))?"...":"").'</div>';
 			            }
 			            ?>
 			        </div><br>
 				<?php endif; ?>
 				</div>
-			</div>
-			<div class="col-md-6">
-				<div id="l2" class="box-shadow pagecolumn">
-			        <?php if (!empty($topTracks)): ?>
-			        <div >
-			            <strong>Top Tracks</strong>
-			            <?php
-			            foreach ((array) $topTracks as $trackInfo) {
-			                echo '<div class="p5 dash-bottom trackDiv" trackid="' . $trackInfo['id'] . '">' . $trackInfo['content'] . (($trackInfo['length'] > $this->config->item('preview_limit'))?"...":"") .'</div>';
-			            }
-			            ?>
-			        </div><br>
-					<?php endif; ?>
+				
 			</div>
 		</div>
 	</div>
