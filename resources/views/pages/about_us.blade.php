@@ -1,0 +1,1 @@
+<strong>this is the about us page</strong>
