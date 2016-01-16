@@ -342,6 +342,8 @@ function setCookie(b, e, c) {
     document.cookie = b + "=" + d
 };
 
+// global variables
+var gameObj;
 
 // on page load 
 $(function() {
@@ -353,4 +355,14 @@ $(function() {
         if($(this).text() != 'anon')
             setCookie('tr_username', $(this).text());
     });
+
+    // event handlers
+    $('.trackDiv').bind("click", function() {
+        window.location = configObj.baseUrl + "?trackid=" + $(this).attr('trackid');
+    });
+
+    if( $('#track').length > 0 ) {
+        gameObj = new gameClass("para", "typeValue", "timeDiv", "gameHandle", "para");
+        ajaxObj.updateScoreTable()
+    }
 });

@@ -42,17 +42,3 @@
         <strong>Something went wrong!</strong>
     <?php endif; 
 ?>
-
-<script type="text/javascript">
-$(function() {
-    <?php if(empty($room)): ?>
-        var gameObj = new gameClass("para", "typeValue", "timeDiv", "gameHandle", "para");
-        ajaxObj.updateScoreTable()
-
-        // event handlers
-        $('.trackDiv').bind("click", function() {
-            window.location = configObj.baseUrl + "?trackid=" + $(this).attr('trackid');
-        });
-    <?php endif; ?>
-});
-</script>
