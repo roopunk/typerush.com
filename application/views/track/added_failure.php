@@ -6,7 +6,7 @@ if($m == 'INVALID_PARA') {
     echo 'Play it <a href="'.(base_url().'?trackid='.$d).'">here</a>';
     
 } else if( $m == 'INSERT_FAILURE') {
-    echo 'Somethhing went wrong at our end. Please try again later!';
+    echo 'Something went wrong at our end. Please try again later!';
 }
 ?>
 <br><br>

@@ -371,7 +371,7 @@ $config['css_ver'] = array(
 		'base' => 'base-v2-3'
 	);
 $config['js_ver'] = array(
-		'base' => 'base-v2-3',
+		'base' => 'base-v2-4',
 		'room' => 'room-v1',
 		'jquery' => 'jquery',
 		'track_add' => 'track_add-v1'
