@@ -8,3 +8,6 @@ Assuming the following :
 * database name : typerunner
 * password : admin123
 * a local database has been setup by importing the typerunner.sql file
+
+Compressing Javascript files :
+* cat base.js | java -jar yuicompressor-2.4.8.jar --type=js -o base-v2-4.js
