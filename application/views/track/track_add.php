@@ -15,6 +15,7 @@
                 echo recaptcha_get_html($publickey);
             ?>
             <br>
+            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
             <input type="submit" value="check and submit" class="btn btn-primary">
             <input type="button" value="test run" class="btn btn-default" onclick="testTrack()">
         </form>
