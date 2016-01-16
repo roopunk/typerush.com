@@ -89,6 +89,9 @@ function gameClass(b, d, c, f, h, g) {
     this.top_margin = 0;
     this.countdown_limit = parseInt(configObj.countdown_limit, 10) * 10;
     this.initGame = function() {
+        // track completion of game
+        _gtrack('game', 'start');
+
         this.timerObj.startTimer(this, this.countDownCallBack, this.countdown_limit)
     };
     this.countDownCallBack = function(i) {
@@ -199,7 +202,7 @@ function gameClass(b, d, c, f, h, g) {
         $("#" + this.button).bind("click", function() {
             if (e.status == "off") {
                 if (!e.no_submit && document.cookie.indexOf("tr_username") == -1) {
-                    $("#username").click()
+                    userObj.askUsername()
                 }
                 e.initGame()
             } else {
@@ -213,6 +216,7 @@ function gameClass(b, d, c, f, h, g) {
         e.handleChange(i)
     })
 }
+
 gameClass.prototype.handleProgress = function() {
     var b;
     if (typeof complete != "undefined" && complete) {
@@ -222,8 +226,14 @@ gameClass.prototype.handleProgress = function() {
     }
     $("#" + this.trackid + "progress").css("width", b + "%")
 };
+
+/*
+Function to end the game
+Arguments : "b"
+if b is true, the game was ended manually, as in the user did not complete the game
+ */
 gameClass.prototype.endGame = function(b) {
-    a = (typeof b !== "undefined") ? b : false;
+    var manual = (typeof b !== "undefined") ? b : false;
     this.showTimeInMessage();
     this.textObj.resetText();
     $("#" + this.input_id).val("").attr("disabled", "disabled");
@@ -231,12 +241,34 @@ gameClass.prototype.endGame = function(b) {
         $("#" + this.button).text("start!")
     }
     this.timerObj.endTimer();
-    if (!a && !this.no_submit) {
-        ajaxObj.submitScore(this.timeElapsed)
+    if (!manual && !this.no_submit) {
+        ajaxObj.submitScore(this.timeElapsed);
+
+        // track completion of game
+        _gtrack('game', 'complete');
     }
     this.handleProgress(true);
     this.status = "off"
+
+    // track end of game
+    _gtrack('game', 'end');
 };
+
+var userObj = new function() {
+    this.askUsername = function() {
+        var username, t = $('#username'), oldText = t.text();
+        if (username = prompt("Want to choose a username?", t.text())) {
+            t.text(username);
+        }
+        setCookie('tr_username', t.text());
+
+        // track changing if usernames
+        if(oldText != username) {
+            _gtrack('username', 'change')
+        }
+    }
+};
+
 var layerObj = new function() {
     this.show = function(b, f) {
         this.closeAll();
@@ -248,6 +280,7 @@ var layerObj = new function() {
         $("#layerObj").remove()
     }
 };
+
 var ajaxObj = new function() {
     this.submitScore = function(d) {
         if (!d) {
@@ -276,7 +309,7 @@ var ajaxObj = new function() {
     };
     this.updateScoreTable = function() {
         $("#messageDiv").text("updating score table..");
-        $.post(configObj.backendUrl + "/fetchScore", function(c) {
+        $.get(configObj.backendUrl + "/fetchScore", function(c) {
             var d = JSON.parse(c);
             if (d.status == 1) {
                 $("#scoreTable").html(d.content)
@@ -342,18 +375,20 @@ function setCookie(b, e, c) {
     document.cookie = b + "=" + d
 };
 
+// tracking function
+function _gtrack(category, action) {
+    if(typeof ga == 'function') {
+        ga('send', 'event', category, action)
+    }
+}
+
 // global variables
 var gameObj;
 
 // on page load 
 $(function() {
     $('#username').bind("click", function() {
-        var username;
-        if (username = prompt("Want to choose a username?", $(this).text())) {
-            $(this).text(username);
-        }
-        if($(this).text() != 'anon')
-            setCookie('tr_username', $(this).text());
+        userObj.askUsername();
     });
 
     // event handlers
