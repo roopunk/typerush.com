@@ -41,10 +41,14 @@ class Room_model extends CI_model {
         $username = $postData['username'];
         $track = $postData['track'];
 
-        // add a row to the rooms table, timestamp, id, rand1, rand2, players
+        // add a random token so that it is not easy to access a room by playing with the url
         $token = rand(1, 1000);
+
+        // add a row to the rooms table, timestamp, id, rand1, rand2, players
         $this->db->query("INSERT INTO rooms (`trackid`, `token`) VALUES ( ? , ? )", array($track, $token));
         $room_id = $this->db->insert_id();
+        if(empty($room_id))
+            return ['s' => false, 'd' => 'Something went wrong'];
 
         // create a user session 
         $this->db->query("INSERT INTO room_users (`room_id`, `username`) VALUES ( ? , ? )", array($room_id, $username));
@@ -56,6 +60,7 @@ class Room_model extends CI_model {
         // generate a file name and store that in the session
         $file_name = "room_".$room_id;
         file_put_contents("rooms/".$file_name, time());
+
         $sess_data = array('room_id'=>$room_id, 'room_userid' => $user_id, 'username'=>$username, 'track_id'=>$track);
         $rooms_data = $this->session->userdata('rooms_data');
         if(!$rooms_data) $rooms_data = array($sess_data);

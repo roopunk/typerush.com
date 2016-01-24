@@ -44,7 +44,9 @@ class Backend extends CI_Controller {
 
     public function roomPing() {
         $room_id = $this->input->get('room_id');
-        if(!$room_id) { echo json_encode(array('s'=>false)); exit; }
+        if(!$room_id) {
+            echo json_encode(array('s'=>false)); exit;
+        }
         $mod = $this->input->get('mod');
         $file_url = "rooms/room_".$room_id;
         $this->load->model('room_model');

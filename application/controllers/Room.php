@@ -2,12 +2,11 @@
 
 class Room extends CI_Controller {
 
-    public function __construct()
-       {
-            parent::__construct();
-            $this->load->library('session');
-            $this->load->model('room_model');
-       }
+   public function __construct() {
+        parent::__construct();
+        $this->load->library('session');
+        $this->load->model('room_model');
+   }
 
     public function index() {
         // display details of all the tracks currently active
@@ -25,6 +24,7 @@ class Room extends CI_Controller {
 
         $this->load->library('form_validation');
         $this->load->helper('form_helper');
+        $this->load->model('tracks_model');
             
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[20]');
         $this->form_validation->set_rules('track', 'Track', 'trim|required|integer');
@@ -33,10 +33,20 @@ class Room extends CI_Controller {
             $this->load->view("room/new_room");
         } else {
             $postdata = $this->input->post();
-            $r = $this->room_model->startRoom($postdata);    
-            if($r['s'])
-                redirect(site_url('room/play/'.$r['url']));
-            else $this->load->view('room/room_failure');
+
+            // check if its a valid track
+            $trackId = $postdata['track'];
+            $trackInfo = $this->tracks_model->getTrack($trackId);
+            if(!$trackInfo['s'])
+                $error = "No such track";
+            else {
+                $r = $this->room_model->startRoom($postdata);
+                if ($r['s'])
+                    redirect(site_url('room/play/' . $r['url']));
+                else $error = $r['d'];
+            }
+
+            $this->load->view('room/new_room', ['error' => $error]);
         }
         $this->load->view('page_end');
     }

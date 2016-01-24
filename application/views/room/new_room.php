@@ -3,13 +3,18 @@
         echo '<div class="error_box">'.$form_errors.'</div>';
     } ?>
 
-    <form name="enterRoomForm" method="POST">
-    Give us a nick name: <br>
-    <input type="text" name="username" class="largeText"><br><br>
-    Choose a track: <br>
-    <input type="text" name="track" class="largeText"><br><br>
+    <?php if(!empty($error)) {
+        echo '<div class="error_box">'.$error.'</div>';
+    } ?>
 
-    <input type="submit" value="enter" class="large-button">
+    <form name="enterRoomForm" method="POST">
+        Give us a nick name: <br>
+        <input type="text" name="username" class="largeText"><br><br>
+        Choose a track: <br>
+        <input type="text" name="track" class="largeText"><br><br>
+
+        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
+        <input type="submit" value="enter" class="btn btn-primary   ">
     </form>
 </div>
 <br><br>

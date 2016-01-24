@@ -9,7 +9,9 @@
     <form name="enterRoomForm" method="POST">
     Give us a nick name: <br>
     <input type="text" name="username" class="largeText">
+
     <input type="hidden" name="room_id" value="<?php echo (!empty($room_id))?$room_id:"0"; ?>" /><br><br>
+    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 
     <input type="submit" value="enter" class="large-button">
     </form>
