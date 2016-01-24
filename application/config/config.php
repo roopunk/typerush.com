@@ -519,7 +519,7 @@ $config['check_online_limit'] = 20;
 /* Location: ./application/config/config.php */
 
 /* custom configs */
-$config['preview_limit'] = 50;
+$config['preview_limit'] = 100;
 $config['track_on'] = true;
 $config['is_live'] = false;
 $config['css_ver'] = array(
