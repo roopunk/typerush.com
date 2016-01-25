@@ -54,9 +54,9 @@ function room_showPlayers() {
 
 function room_updateStatus(a) {
     if (a) {
-        $("#onlineStatus").text("online")
+        $("#onlineStatus").html("<span class='label label-succcess' >online</span>")
     } else {
-        $("#onlineStatus").text("offline")
+        $("#onlineStatus").html("<span class='label label-danger' >offline</span>")
     }
 }
 $(function() {

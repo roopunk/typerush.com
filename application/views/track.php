@@ -1,6 +1,6 @@
 <?php
     if(isset($track)): ?>  
-    <div id="right" class="box-shadow pagecolumn">
+    <div id="right" class="box-shadow">
         <div id="paraMeta" class="paraMeta"> <div id="paraprogress" class="paraprogress"></div></div>
         <div class="" id="track">
             <div id="parawrapper" class="parawrapper p10">

@@ -296,7 +296,7 @@ var ajaxObj = new function() {
             blah: d,
             name: c
         }, function(b) {
-            var e = JSON.parse(b);
+            var e = _parseJson(b);
             if (!e.s) {
                 alert("something went wrong!");
                 gameObj.showMessage("", false)
@@ -310,7 +310,7 @@ var ajaxObj = new function() {
     this.updateScoreTable = function() {
         $("#messageDiv").text("updating score table..");
         $.get(configObj.backendUrl + "/fetchScore", function(c) {
-            var d = JSON.parse(c);
+            var d = _parseJson(c);
             if (d.status == 1) {
                 $("#scoreTable").html(d.content)
             } else {
@@ -324,7 +324,7 @@ var ajaxObj = new function() {
             room_id: roomData.room_id,
             mod: roomData.mod
         }, function(c) {
-            var d = JSON.parse(c);
+            var d = _parseJson(c);
             if (d.s) {
                 if (d.d) {
                     roomData.mod = d.mod;
@@ -334,6 +334,7 @@ var ajaxObj = new function() {
                 }
                 ajaxObj.longPollRoom()
             } else {
+                alert(d.d);
                 room_updateStatus(false)
             }
         }).fail(function() {
@@ -344,7 +345,7 @@ var ajaxObj = new function() {
         $.get(configObj.backendUrl + "/markReady", {
             room_id: roomData.room_id
         }, function(c) {
-            var d = JSON.parse(c);
+            var d = _parseJson(c);
             if (!d.s) {
                 room_updateStatus(false)
             }
@@ -358,7 +359,7 @@ var ajaxObj = new function() {
             time: roomObj.timeElapsed,
             room_id: roomData.room_id
         }, function(d) {
-            var e = JSON.parse(d);
+            var e = _parseJson(d);
             if (!e.s) {
                 room_updateStatus(false)
             }
@@ -379,6 +380,16 @@ function setCookie(b, e, c) {
 function _gtrack(category, action) {
     if(typeof ga == 'function') {
         ga('send', 'event', category, action)
+    }
+}
+
+// parsing json
+function _parseJson(str) {
+    try {
+        return JSON.parse(str);
+    } catch(e) {
+        alert("Something went wrong");
+        return {};
     }
 }
 

@@ -5,7 +5,7 @@
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="box-shadow pagecolumn">
+				<div class="box-shadow">
 					<?php if (!empty($recentScores)): ?>
 			        <div >
 			            <div class="bg-success p10">Recent Scores</div>
@@ -23,7 +23,8 @@
 			        </div><br>
 					<?php endif; ?>
 				</div>
-				<div class="box-shadow pagecolumn">
+				<div class="p10"></div>
+				<div class="box-shadow">
 			        <?php if (!empty($topTracks)): ?>
 			        <div >
 			            <div class="bg-success p10">Top Tracks</div>
@@ -38,7 +39,7 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="box-shadow pagecolumn">
+				<div class="box-shadow">
 			    <?php if (!empty($recentTracks)): ?>
 			        <div >
 			            <div class="bg-success p10">Recent Tracks</div>

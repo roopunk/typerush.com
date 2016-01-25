@@ -99,8 +99,7 @@ class Room extends CI_Controller {
                 $this->load->model('tracks_model');
                 $r = $this->tracks_model->getTrack($track_id);
                 $track = $r['d'];
-                $this->load->view('track', array('track'=>$track, 'room' => true));
-                $this->load->view('room/dashboard', array('room_id'=>$room_id, 'userid'=>$room_userid, 'username'=>$username));    
+                $this->load->view('room/play', [ 'track' => $track, 'room_id' => $room_id, 'room_userid' => $room_userid, 'username' => $username]);
             }
         } else {
             $this->load->view('room/room_failure', array('err' => 'Room seems to be invalid!'));

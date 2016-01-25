@@ -56,6 +56,10 @@ class Backend extends CI_Controller {
         while($counter < 10) {
             clearstatcache();
             $modified_time = filemtime($file_url);
+            if($modified_time === false) {
+                echo json_encode(['s' => false, 'd' => 'Something went wrong at our server']);
+                exit;
+            }
             if($mod < $modified_time) {    
                 $mod = $modified_time;
                 $resource = $this->room_model->getRoomInfo($room_id);
