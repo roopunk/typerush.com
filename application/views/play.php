@@ -5,22 +5,26 @@
 	<div class="col-md-6">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="box-shadow pagecolumn">
+				<div class="box-shadow">
 					<?php if (!empty($recentScores)): ?>
 			        <div >
 			            <div class="bg-success p10">Recent Scores</div>
 			            <table class="table">
-    					<tr><th>user</th><th>wpm</th><th>time</th></tr>
+    					<tr><th>user</th><th>wpm</th><th>when</th></tr>
 			            <?php
 			            foreach ((array) $recentScores as $score) {
-			                echo '<tr><td>'.$score['name'].'</td><td>'.$score['wpm'].'</td><td>'.date('d-m-Y', $score['timestamp']).'</td></tr>';
+			                echo '<tr><td>'.
+									$score['name'].'</td><td>'.
+									$score['wpm'].'</td><td>'.
+									timespan($score['timestamp'], time(), 1).' ago</td></tr>';
 			            }
 			            ?>
 			            </table>
 			        </div><br>
 					<?php endif; ?>
 				</div>
-				<div class="box-shadow pagecolumn">
+				<div class="p10"></div>
+				<div class="box-shadow">
 			        <?php if (!empty($topTracks)): ?>
 			        <div >
 			            <div class="bg-success p10">Top Tracks</div>
@@ -35,7 +39,7 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="box-shadow pagecolumn">
+				<div class="box-shadow">
 			    <?php if (!empty($recentTracks)): ?>
 			        <div >
 			            <div class="bg-success p10">Recent Tracks</div>

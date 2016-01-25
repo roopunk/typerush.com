@@ -1,16 +1,22 @@
-<div id="l3" class="box-shadow pagecolumn">
-    <div id="onlineStatus" class="largeText">offline</div>
-    <div id="roomMsg" class="largeText"></div><hr>
+<div class="p10 box-shadow">
+    <h3>Room #<?php echo $room_id; ?></h3>
+    <div id="roomMsg" class="largeText">waiting for players..</div><hr>
     <?php if (!empty($room_id)): ?>
-        <div >
-            share url : <br><input type="text" class="p10" style="width:400px" value="<?php echo site_url('room/enter/'.$room_id); ?>" />
-        </div><br><br>
-        players: <br>
+        <div>
+            <form>
+                <div class="input-group">
+                <span class="input-group-addon">share url</span>
+                <input type="text" class="form-control"
+                       value="<?php echo site_url('room/enter/' . $room_id); ?>"/>
+                </div>
+            </form>
+        </div><br>
+        <h5>Players</h5>
+        You <span id="onlineStatus"></span>
         <div id="room_players">
-        	
         </div>
         <br><br>
-        <input type="button" value="I am ready!" id="readyToPlay" />
+        <input type="button" class="btn btn-primary" value="I am ready!" id="readyToPlay" />
     <?php endif; ?>
 </div>
 

@@ -44,7 +44,9 @@ class Backend extends CI_Controller {
 
     public function roomPing() {
         $room_id = $this->input->get('room_id');
-        if(!$room_id) { echo json_encode(array('s'=>false)); exit; }
+        if(!$room_id) {
+            echo json_encode(array('s'=>false)); exit;
+        }
         $mod = $this->input->get('mod');
         $file_url = "rooms/room_".$room_id;
         $this->load->model('room_model');
@@ -54,6 +56,10 @@ class Backend extends CI_Controller {
         while($counter < 10) {
             clearstatcache();
             $modified_time = filemtime($file_url);
+            if($modified_time === false) {
+                echo json_encode(['s' => false, 'd' => 'Something went wrong at our server']);
+                exit;
+            }
             if($mod < $modified_time) {    
                 $mod = $modified_time;
                 $resource = $this->room_model->getRoomInfo($room_id);

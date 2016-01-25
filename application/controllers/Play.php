@@ -6,6 +6,7 @@ class Play extends CI_Controller {
 	{
         $this->load->model('tracks_model');
         $this->load->model('score_model');
+        $this->load->helper('date');
 
 		$topTracks = $this->tracks_model->getTopTracks()['d'];
 		$recentTracks = $this->tracks_model->getRecentTracks()['d'];
