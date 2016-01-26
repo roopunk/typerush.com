@@ -518,18 +518,16 @@ $config['check_online_limit'] = 20;
 /* End of file config.php */
 /* Location: ./application/config/config.php */
 
-/* custom configs */
+/* custom configs common to both production and development */
 $config['preview_limit'] = 100;
-$config['track_on'] = true;
-$config['is_live'] = false;
 $config['css_ver'] = array(
 		'base' => 'base-v2-3'
-	);
+);
 $config['js_ver'] = array(
 		'base' => 'base-v2-5',
 		'room' => 'room-v1-1',
 		'jquery' => 'jquery',
 		'track_add' => 'track_add-v1'
-	);
+);
 $config['countdown_time'] = 5;
 $config['max_wpm'] = 200;
