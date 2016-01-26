@@ -12,3 +12,7 @@ Local Development :
 
 Compressing Javascript files :
 * cat base.js | java -jar yuicompressor-2.4.8.jar --type=js -o base-v2-4.js
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/roopunk/typerush.com/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
