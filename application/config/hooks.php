@@ -10,7 +10,10 @@
 |
 */
 
-
+$hook['pre_system'] = function() {
+    $dotenv = new Dotenv\Dotenv(APPPATH);
+    $dotenv->load();
+};
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
