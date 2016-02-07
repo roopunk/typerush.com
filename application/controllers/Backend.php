@@ -48,7 +48,7 @@ class Backend extends CI_Controller {
             echo json_encode(array('s'=>false)); exit;
         }
         $mod = $this->input->get('mod');
-        $file_url = "rooms/room_".$room_id;
+        $file_url = FCPATH."rooms/room_".$room_id;
         $this->load->model('room_model');
         $resource = false;
 
@@ -75,9 +75,13 @@ class Backend extends CI_Controller {
 
     public function markReady() {
         $room_id = $this->input->get('room_id');
-        if(!$room_id) { echo json_encode(array('s'=>false)); exit; }
+        if(!$room_id) {
+			echo json_encode(array('s'=>false));
+			exit;
+		}
+
         $this->load->model('room_model');
-        $result = $this->room_model->updateProgress($room_id,0);
+        $result = $this->room_model->updateProgress($room_id,0,0);
         if(!$result) { echo json_encode(array('s'=>false)); exit; }
         else { echo json_encode(array('s'=>true)); exit; }
     }
@@ -86,7 +90,12 @@ class Backend extends CI_Controller {
         $progress = $this->input->post('progress');
         $room_id = $this->input->post('room_id');
         $time = $this->input->post('time');
-        if(!$room_id || !is_numeric($progress) || !is_numeric($time)) { echo json_encode(array('s'=>false)); exit; }
+
+        if(!$room_id || !is_numeric($progress) || !is_numeric($time)) {
+			echo json_encode(array('s'=>false));
+			exit;
+		}
+
         $this->load->model('room_model');
         $result = $this->room_model->updateProgress($room_id, $progress, $time);
         if(!$result) { echo json_encode(array('s'=>false)); exit; }

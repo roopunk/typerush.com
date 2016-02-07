@@ -9,8 +9,12 @@
 
     <div class="col-md-6">
         <form name="enterRoomForm" method="POST">
-            <input type="text" placeholder="Nick name" name="username" class="form-control"/><br>
-            <input type="text" placeholder="Choose a track" name="track" class="form-control" /><br>
+            <input type="text" placeholder="Choose a nick name" name="username" class="form-control"/><br>
+            <?php if(!empty($track)): ?>
+                <input type="text" placeholder="Choose a track" readonly="readonly" name="track" class="form-control" value="<?php echo $track; ?>" /><br>
+            <?php else: ?>
+                <input type="text" placeholder="Choose a track" name="track" class="form-control" /><br>
+            <?php endif; ?>
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                    value="<?php echo $this->security->get_csrf_hash(); ?>"/>
             <input type="submit" value="Enter" class="btn btn-primary   ">

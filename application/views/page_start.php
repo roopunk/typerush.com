@@ -38,7 +38,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="p10">
+            <div class="">
                 <div class="row">
                     <div class="col-md-6">
                         <h1>
@@ -49,15 +49,16 @@
                     </div>
                     <div class="col-md-6 text-right" style="padding-top:20px;">
                         <a href="<?php echo site_url('track/add')?>" class="btn btn-primary m10" >Add a track</a>
-<!--                        <a href="--><?php //echo site_url('room/start')?><!--" class="btn btn-primary m10">Start a room</a>-->
+                        <!--<a href="<?php echo site_url('room/start')?>" class="btn btn-primary m10">Start a room</a>-->
                     </div>
                 </div>
                 <!-- <h4 >Typing practice, gamified!</h4> -->
-                <hr> 
+                <hr>
                 <?php if (!empty($username)) : ?>
                 <div>
                     Playing as <span id="username" class="grey"><?php echo ((isset($username) ? $username : 'anonymous')); ?></span>
                 </div>
+                <br>
                 <?php endif; ?>
             </div>
             <div>

@@ -37,9 +37,7 @@ class Room_model extends CI_model {
         return array('s'=>true, 'd'=>$insert_id);
     }
 
-    function startRoom($postData) {
-        $username = $postData['username'];
-        $track = $postData['track'];
+    function startRoom($username, $track) {
 
         // add a random token so that it is not easy to access a room by playing with the url
         $token = rand(1, 1000);
@@ -61,7 +59,13 @@ class Room_model extends CI_model {
         $file_name = "room_".$room_id;
         file_put_contents("rooms/".$file_name, time());
 
-        $sess_data = array('room_id'=>$room_id, 'room_userid' => $user_id, 'username'=>$username, 'track_id'=>$track);
+        // add this info to user's session so that we can verify that this user is part of the room when he enters the room
+        $sess_data = [
+            'room_id'=>$room_id,
+            'room_userid' => $user_id,
+            'username'=>$username,
+            'track_id'=>$track
+        ];
         $rooms_data = $this->session->userdata('rooms_data');
         if(!$rooms_data) $rooms_data = array($sess_data);
         else $rooms_data[] = $sess_data;
@@ -150,9 +154,8 @@ class Room_model extends CI_model {
         $temp = file_put_contents("rooms/".$file_name, time());
 
         $update_query = $this->db->query("UPDATE room_users set `completed` =?, `time_taken`= ? where `room_id`=? and `id`=?", array($progress, $time, $room_id, $userid));
+
         if(!$update_query) return false;
-
-
         else return true;
     }
 }

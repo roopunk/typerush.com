@@ -29,8 +29,10 @@ class Room extends CI_Controller {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[20]');
         $this->form_validation->set_rules('track', 'Track', 'trim|required|integer');
 
+        $track = $this->input->get('track');
+
         if($this->form_validation->run() == false) {
-            $this->load->view("room/new_room");
+            $this->load->view("room/new_room", ['track' => $track]);
         } else {
             $postdata = $this->input->post();
 
@@ -40,20 +42,20 @@ class Room extends CI_Controller {
             if(!$trackInfo['s'])
                 $error = "No such track";
             else {
-                $r = $this->room_model->startRoom($postdata);
+                $r = $this->room_model->startRoom($postdata['username'], $postdata['track']);
                 if ($r['s'])
                     redirect(site_url('room/play/' . $r['url']));
                 else $error = $r['d'];
             }
 
-            $this->load->view('room/new_room', ['error' => $error]);
+            $this->load->view('room/new_room', ['error' => $error, 'track' => $track]);
         }
         $this->load->view('page_end');
     }
 
 	public function enter($room_id)
 	{
-        $this->load->view('page_start', array('js'=>array('room')));
+        $this->load->view('page_start');
 
         if($this->room_model->checkRoomPresence($room_id)) {
             $this->load->library('form_validation');
@@ -75,11 +77,12 @@ class Room extends CI_Controller {
         } else {
             $this->load->view('room/room_failure', array('err' => 'You are already present in this room!'));   
         }
-        $this->load->view('page_end');
+        $this->load->view('page_end', array('js'=>array('room')));
     }
 
     public function play($room_id, $token) {
-        $this->load->view('page_start', array('js'=>array('room')));
+        $this->load->view('page_start');
+
         if($this->room_model->verifyRoom($room_id, $token)) {
             $rooms_data = $this->session->userdata('rooms_data');
             $found = false;
@@ -97,14 +100,18 @@ class Room extends CI_Controller {
                 $this->load->view('room/room_failure', array('err' => "You are not in this room yet!"));
             } else {
                 $this->load->model('tracks_model');
-                $r = $this->tracks_model->getTrack($track_id);
-                $track = $r['d'];
-                $this->load->view('room/play', [ 'track' => $track, 'room_id' => $room_id, 'room_userid' => $room_userid, 'username' => $username]);
+                $track = $this->tracks_model->getTrack($track_id)['d'];
+                $this->load->view('room/play', [
+                    'track' => $track,
+                    'room_id' => $room_id,
+                    'room_userid' => $room_userid,
+                    'username' => $username
+                ]);
             }
         } else {
             $this->load->view('room/room_failure', array('err' => 'Room seems to be invalid!'));
         }
-        $this->load->view('page_end');
+        $this->load->view('page_end', array('js'=>array('room')));
     }
 }
 

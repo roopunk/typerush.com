@@ -7,7 +7,6 @@ roomClass.prototype.endGame = function() {
     this.handleProgress(true);
     this.showTimeInMessage();
     this.textObj.resetText();
-    console.log("ending");
     $("#" + this.input_id).val("").attr("disabled", "disabled");
     this.timerObj.endTimer();
     this.status = "off"
@@ -59,6 +58,30 @@ function room_updateStatus(a) {
         $("#onlineStatus").html("<span class='label label-danger' >offline</span>")
     }
 }
+
+ajaxObj.longPollRoom = function() {
+    $.get(configObj.backendUrl + "/roomPing", {
+        room_id: roomData.room_id,
+        mod: roomData.mod
+    }, function(c) {
+        var d = _parseJson(c);
+        if (d.s) {
+            if (d.d) {
+                roomData.mod = d.mod;
+                roomData.players = d.info;
+                room_showPlayers();
+                room_updateStatus(true)
+            }
+            ajaxObj.longPollRoom()
+        } else {
+            alert(d.d);
+            room_updateStatus(false)
+        }
+    }).fail(function() {
+        room_updateStatus(false)
+    })
+};
+
 $(function() {
     ajaxObj.longPollRoom();
     $("#readyToPlay").click(function() {

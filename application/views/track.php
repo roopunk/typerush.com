@@ -31,8 +31,9 @@
         </div>
         <div style="display:inline-block;width:40%;"><strong class="veryLargeText" id="timeDiv">0</strong> seconds</div>
         <?php if(empty($room)): ?>
-            <hr><br>
-            <div id="messageDiv"></div>
+            <hr>
+            <div id="messageDiv" class="p10"></div>
+            <div class="btn btn-default"><a href="<?php echo site_url('room/start')."?track=".$track['trackid']; ?>">Start a Room on this track</a></div>
             <div id="scoreTable" class="p10"></div>
         <?php endif; ?>
         
