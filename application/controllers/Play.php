@@ -33,7 +33,7 @@ class Play extends CI_Controller {
             'recentTracks'=>$recentTracks,
             'recentScores' => $recentScores
         ));
-        $this->load->view('page_end');
+        $this->load->view('page_end', ['js' => ['play']]);
 	}
 }
 

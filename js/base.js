@@ -1,6 +1,9 @@
+/*
+* Class to manage the track
+*/
 function textClass(b) {
-    this.wordsLen = 1;
     this.currWordIndex = 1;
+    this.wordsLen = 1;
     this.id = b;
     this.readPara = function() {
         var c = this.id;
@@ -43,36 +46,41 @@ function textClass(b) {
         }
     };
     this.getProgress = function() {
-        return parseInt((this.currWordIndex - 1) / this.wordsLen * 100)
+        return parseInt((this.currWordIndex - 1) / this.wordsLen * 100, 10)
     }
 }
 
+/*
+    Just a timer class with
+        a. option to set a max limit
+        b. option to give a callback on every call
+*/
 function timerClass() {
     this.timer = null;
     this.timerVal = 0;
     this.callBack;
     this.limit = 1000;
     this.scopeObj;
-    this.startTimer = function(e, b, c) {
-        var d = this;
-        d.timerVal = 0;
-        d.limit = parseInt(c, 10) || 10000;
-        d.callBack = b;
-        d.scopeObj = e;
-        d.timer = window.setInterval(function() {
-            d.incrementTimer()
+    this.startTimer = function(scopeObj, callBack, limit) {
+        var th = this;
+        th.timerVal = 0;
+        th.limit = parseInt(limit, 10) || 10000;
+        th.callBack = callBack;
+        th.scopeObj = scopeObj;
+        th.timer = window.setInterval(function() {
+            th.incrementTimer()
         }, 100)
     };
     this.endTimer = function() {
         clearInterval(this.timer)
     };
     this.incrementTimer = function() {
-        var b = this;
-        b.timerVal++;
-        if (b.timerVal >= b.limit) {
-            b.endTimer()
+        var th = this;
+        th.timerVal++;
+        if (th.timerVal >= th.limit) {
+            th.endTimer()
         }
-        b.callBack.call(b.scopeObj, b.timerVal)
+        th.callBack.call(th.scopeObj, th.timerVal)
     }
 }
 
@@ -95,27 +103,29 @@ function gameClass(b, d, c, f, h, g) {
         this.timerObj.startTimer(this, this.countDownCallBack, this.countdown_limit)
     };
     this.countDownCallBack = function(i) {
-        var j = this.countdown_limit - i;
-        if (j == 0) {
+        if (i == this.countdown_limit) { // remove the grey bg layer and start the game
             $("#countdownlayerbg, #countdownlayer").addClass("hid");
             this.startGame()
         } else {
             $("#countdownlayerbg, #countdownlayer").removeClass("hid");
-            $("#countdownlayer").text(parseInt(j / 10, 10) + 1)
+            $("#countdownlayer").text(parseInt((this.countdown_limit - i) / 10, 10) + 1)
         }
     };
     this.startGame = function() {
-        var i = this;
-        i.textObj.readPara();
-        i.timerObj.startTimer(i, i.timerCallBack);
-        $("#" + i.input_id).removeAttr("disabled").val("").focus();
-        if ($("#" + i.button).length > 0) {
-            $("#" + i.button).text("stop!")
+        var th = this;
+        th.textObj.readPara();
+        th.timerObj.startTimer(th, th.timerCallBack);
+
+        // activate the text field
+        $("#" + th.input_id).removeAttr("disabled").val("").focus();
+        if ($("#" + th.button).length > 0) {
+            $("#" + th.button).text("stop!")
         }
-        i.handlePositioning();
-        i.handleProgress();
-        i.timeElapsed = 0;
-        i.status = "on"
+
+        th.handleScrollPosition();
+        th.handleProgress();
+        th.timeElapsed = 0;
+        th.status = "on"
     };
     this.showMessage = function(j, i) {
         if (j === true) {
@@ -139,13 +149,13 @@ function gameClass(b, d, c, f, h, g) {
         this.timeElapsed = i;
         this.showTimeInMessage()
     };
-    this.handleChange = function(k) {
+    this.handleInput = function(k) {
         var j = this.textObj.getWord(this.textObj.currWordIndex);
         var i = $("#" + this.input_id).val();
         i = i.trim();
-        if (this.textObj.paraOver() && i == j) {
+        if (i == j && this.textObj.paraOver()) {
             this.endGame();
-            return
+            return true;
         }
         if (i != j.substr(0, i.length)) {
             this.textObj.indicateWrong(true)
@@ -156,12 +166,14 @@ function gameClass(b, d, c, f, h, g) {
             if (i == j) {
                 $("#" + this.input_id).val("");
                 this.textObj.nextWord();
-                this.handlePositioning();
+                this.handleScrollPosition();
                 this.handleProgress()
             }
         }
     };
-    this.handlePositioning = function() {
+
+    // manages the scroll position of the track
+    this.handleScrollPosition = function() {
         var k, i, j;
         if ($("#" + this.trackid).find("span.green").length > 0) {
             k = $("#" + this.trackid).find("span.green").position().top;
@@ -196,6 +208,8 @@ function gameClass(b, d, c, f, h, g) {
             $("#" + this.trackid + "ts").hide()
         }
     };
+
+
     var e = this;
     if ($("#" + this.button).length > 0) {
         $("#" + this.button).text("start");
@@ -213,11 +227,11 @@ function gameClass(b, d, c, f, h, g) {
     $("#" + this.input_id).val("").attr("disabled", "disabled");
     $("#" + this.input_id).bind("keyup keypress", function(j) {
         var i = j.which || j.charCode;
-        e.handleChange(i)
+        e.handleInput(i)
     })
 }
 
-gameClass.prototype.handleProgress = function() {
+gameClass.prototype.handleProgress = function(complete) {
     var b;
     if (typeof complete != "undefined" && complete) {
         b = 100
@@ -281,8 +295,8 @@ var layerObj = new function() {
     }
 };
 
-var ajaxObj = new function() {
-    this.submitScore = function(d) {
+var ajaxObj = {
+    submitScore : function(d) {
         if (!d) {
             return false
         }
@@ -306,8 +320,8 @@ var ajaxObj = new function() {
             $("#messageDiv").hide().text("")
         });
         return false
-    };
-    this.updateScoreTable = function() {
+    },
+    updateScoreTable : function() {
         $("#messageDiv").text("updating score table..");
         $.get(configObj.backendUrl + "/fetchScore", function(c) {
             var d = _parseJson(c);
@@ -318,30 +332,8 @@ var ajaxObj = new function() {
             }
             $("#messageDiv").text("")
         })
-    };
-    this.longPollRoom = function() {
-        $.get(configObj.backendUrl + "/roomPing", {
-            room_id: roomData.room_id,
-            mod: roomData.mod
-        }, function(c) {
-            var d = _parseJson(c);
-            if (d.s) {
-                if (d.d) {
-                    roomData.mod = d.mod;
-                    roomData.players = d.info;
-                    room_showPlayers();
-                    room_updateStatus(true)
-                }
-                ajaxObj.longPollRoom()
-            } else {
-                alert(d.d);
-                room_updateStatus(false)
-            }
-        }).fail(function() {
-            room_updateStatus(false)
-        })
-    };
-    this.markReady = function() {
+    },
+    markReady : function() {
         $.get(configObj.backendUrl + "/markReady", {
             room_id: roomData.room_id
         }, function(c) {
@@ -352,8 +344,8 @@ var ajaxObj = new function() {
         }).fail(function() {
             room_updateStatus(false)
         })
-    };
-    this.updateProgress = function(b, c) {
+    },
+    updateProgress : function(b, c) {
         $.post(configObj.backendUrl + "/updateProgress", {
             progress: roomData.p,
             time: roomObj.timeElapsed,
@@ -396,7 +388,7 @@ function _parseJson(str) {
 // global variables
 var gameObj;
 
-// on page load 
+// on page load
 $(function() {
     $('#username').bind("click", function() {
         userObj.askUsername();
@@ -406,9 +398,4 @@ $(function() {
     $('.trackDiv').bind("click", function() {
         window.location = configObj.baseUrl + "?trackid=" + $(this).attr('trackid');
     });
-
-    if( $('#track').length > 0 ) {
-        gameObj = new gameClass("para", "typeValue", "timeDiv", "gameHandle", "para");
-        ajaxObj.updateScoreTable()
-    }
 });
